@@ -30,22 +30,6 @@ Skip the first two lines to try the live fallback instead.
 Push to GitHub, then go to **Settings → Pages → Source: GitHub Actions**. The workflow runs on every push, daily at
 03:17 UTC, and on demand from the Actions tab.
 
-### Hosting on installomator.org
-
-installomator.org is a GitHub Pages site served from
-[Installomator/installomator.github.io](https://github.com/Installomator/installomator.github.io). That repo holds a
-single `index.html` with a `CNAME`. There are two ways to add this catalog:
-
-1. **A separate repo in the org (simplest).** Move this repo to `Installomator/labels` and turn on Pages with the
-   included workflow. GitHub serves project sites under the org site's custom domain, so it should appear at
-   `https://installomator.org/labels/` with no changes to the main site. Then add a "Labels" link to the main
-   site's nav.
-2. **Inside installomator.github.io.** Copy `index.html`, `app.js`, `parse.js` and `assets/` into a `labels/` folder.
-   That repo would then need a workflow (based on `pages.yml`) to rebuild `labels/data/labels.json` daily, and its
-   Pages source would have to switch from "Deploy from a branch" to "GitHub Actions".
-
-The look follows installomator.org: same palette, system font, header, nav and logo. All paths are relative, so the
-page works at any sub-path.
 
 ## Search syntax
 
