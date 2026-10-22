@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Installomator Labels</title>
+<meta name="description" content="Search every Installomator label: what it installs, how it downloads, and the exact fragment source.">
+<link rel="icon" href="assets/installomator-logo.png">
+<style>
+/* Palette and type follow installomator.org (GitHub-style). Dark mode uses GitHub's dark palette. */
+:root {
+  --bg: #f6f8fa; --panel: #ffffff; --panel-2: #f1f3f5; --ink: #24292e; --ink-2: #586069; --ink-3: #6a737d;
+  --line: #e1e4e8; --accent: #0366d6; --accent-hover: #005cc5; --accent-ink: #ffffff; --accent-soft: #f1f8ff;
+  --ok: #2ea043; --warn: #9a6700; --bad: #cf222e; --warn-soft: #fff8c5; --info: #8250df;
+  --code-bg: #24292e; --code-ink: #e1e4e8; --c-com: #959da5; --c-str: #9ecbff; --c-var: #ffab70; --c-key: #f97583; --c-assign: #b392f0;
+  --shadow: 0 1px 3px rgba(0,0,0,0.04);
+  --radius: 8px; --hdr: 65px;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0d1117; --panel: #161b22; --panel-2: #21262d; --ink: #e6edf3; --ink-2: #9198a1; --ink-3: #7d8590;
+  --line: #30363d; --accent: #4493f8; --accent-hover: #539bf5; --accent-ink: #0d1117; --accent-soft: #121d2f;
+  --ok: #3fb950; --warn: #d29922; --bad: #f85149; --warn-soft: #272115; --info: #ab7df8; --code-bg: #010409;
+  --shadow: none;
+} }
+:root[data-theme="dark"] {
+  --bg: #0d1117; --panel: #161b22; --panel-2: #21262d; --ink: #e6edf3; --ink-2: #9198a1; --ink-3: #7d8590;
+  --line: #30363d; --accent: #4493f8; --accent-hover: #539bf5; --accent-ink: #0d1117; --accent-soft: #121d2f;
+  --ok: #3fb950; --warn: #d29922; --bad: #f85149; --warn-soft: #272115; --info: #ab7df8; --code-bg: #010409;
+  --shadow: none;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.6 var(--sans); }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+button { font: inherit; color: inherit; }
+code, .mono { font-family: var(--mono); }
+.wrap { max-width: 1280px; margin: 0 auto; padding: 0 2rem; }
+
+/* Site header, same as installomator.org */
+.site-header { background: var(--panel); border-bottom: 1px solid var(--line); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; gap: 1rem; }
+.logo { font-size: 1.5rem; font-weight: 700; color: var(--ink); display: flex; align-items: center; gap: .5rem; }
+.logo:hover { text-decoration: none; }
+.logo img { height: 32px; width: auto; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .logo img { filter: invert(1) hue-rotate(180deg); } }
+:root[data-theme="dark"] .logo img { filter: invert(1) hue-rotate(180deg); }
+.site-header nav { display: flex; gap: 1.5rem; }
+.site-header nav a { color: var(--ink-2); font-weight: 500; }
+.site-header nav a:hover, .site-header nav a[aria-current] { color: var(--accent); text-decoration: none; }
+
+/* Hero */
+.hero { background: var(--panel); text-align: center; padding: 1.5rem 2rem 1.25rem; border-bottom: 1px solid var(--line); }
+.hero h1 { margin: 0 0 .25rem; font-size: 1.75rem; letter-spacing: -0.02rem; line-height: 1.25; }
+.hero p { margin: 0 auto .5rem; max-width: 640px; font-size: 1rem; color: var(--ink-2); }
+.meta { color: var(--ink-3); font-size: .875rem; }
+.meta b { color: var(--ink); font-weight: 600; }
+
+/* Search */
+.searchbar { position: sticky; top: var(--hdr); z-index: 5; background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(8px); padding: 12px 0; border-bottom: 1px solid var(--line); }
+.search { display: flex; gap: 10px; align-items: center; }
+.search-field { flex: 1; position: relative; }
+.search-field input { width: 100%; font: 400 17px var(--sans); padding: 12px 44px 12px 42px; border-radius: var(--radius); border: 1px solid var(--line); background: var(--panel); color: var(--ink); outline: none; box-shadow: var(--shadow); }
+.search-field input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.search-field svg { position: absolute; left: 14px; top: 50%; translate: 0 -50%; color: var(--ink-3); }
+.search-field kbd { position: absolute; right: 12px; top: 50%; translate: 0 -50%; font: 12px var(--mono); color: var(--ink-3); border: 1px solid var(--line); border-radius: 5px; padding: 1px 6px; }
+select { font: 14px var(--sans); padding: 11px 10px; border-radius: var(--radius); border: 1px solid var(--line); background: var(--panel); color: var(--ink); }
+.filters-toggle { display: none; }
+.hint { font-size: 12.5px; color: var(--ink-3); margin-top: 6px; }
+.hint code { color: var(--ink-2); background: var(--panel-2); padding: 0 4px; border-radius: 4px; }
+
+/* Layout */
+.layout { display: grid; grid-template-columns: 220px 1fr; gap: 28px; padding-block: 20px 60px; }
+.layout > * { min-width: 0; }
+aside h3 { font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); margin: 18px 0 8px; font-weight: 600; }
+aside h3:first-child { margin-top: 0; }
+.facet { display: flex; align-items: center; gap: 8px; padding: 3px 6px; margin: 0 -6px; border-radius: 6px; cursor: pointer; font-size: 14px; color: var(--ink-2); user-select: none; }
+.facet:hover { background: var(--panel-2); }
+.facet input { accent-color: var(--accent); margin: 0; }
+.facet .n { margin-left: auto; font: 12px var(--mono); color: var(--ink-3); }
+.facet.zero { opacity: .45; }
+.clear { background: none; border: 0; color: var(--accent); cursor: pointer; padding: 0; font-size: 13px; margin-top: 16px; }
+
+.resbar { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; color: var(--ink-2); font-size: 14px; flex-wrap: wrap; }
+.resbar b { color: var(--ink); }
+.chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.chip { display: inline-flex; align-items: center; gap: 4px; background: var(--accent-soft); color: var(--accent); border: 0; border-radius: 999px; padding: 2px 10px; font-size: 12.5px; cursor: pointer; font-family: var(--mono); }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px; cursor: pointer; display: grid; grid-template-columns: 40px 1fr; gap: 4px 12px; text-align: left; box-shadow: var(--shadow); transition: border-color .12s, transform .12s; min-width: 0; }
+.card:hover, .card:focus-visible { border-color: var(--accent); outline: none; transform: translateY(-1px); }
+.mono-tile { grid-row: span 2; width: 40px; height: 40px; border-radius: 9px; display: grid; place-items: center; font: 600 17px var(--sans); color: #fff; }
+.card .title { font-weight: 600; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.card .lbl { font: 13px var(--mono); color: var(--accent); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.card .foot { grid-column: 1 / -1; display: flex; gap: 6px; align-items: center; margin-top: 8px; font-size: 12px; color: var(--ink-3); }
+.badge { font: 500 11.5px var(--mono); padding: 1px 7px; border-radius: 5px; background: var(--panel-2); color: var(--ink-2); border: 1px solid var(--line); white-space: nowrap; }
+.badge.disabled { color: var(--warn); border-color: currentColor; background: none; }
+.badge.broken { color: var(--bad); border-color: currentColor; background: none; }
+.foot .host { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.foot .date { white-space: nowrap; }
+.card.warn { border-color: color-mix(in srgb, var(--warn) 55%, var(--line)); }
+.advice { grid-column: 1 / -1; display: flex; gap: 7px; align-items: flex-start; margin-top: 8px; padding: 6px 9px; border-radius: 7px; background: var(--warn-soft); color: var(--warn); font-size: 12.5px; line-height: 1.4; }
+.advice svg { flex: none; margin-top: 2px; }
+.advice span { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.advice b { font-family: var(--mono); font-weight: 600; }
+.badge.req { color: var(--info); border-color: color-mix(in srgb, var(--info) 45%, transparent); background: none; }
+.callout { border: 1px solid color-mix(in srgb, var(--warn) 50%, transparent); background: var(--warn-soft); border-radius: var(--radius); padding: 12px 14px; }
+.callout-title { font-weight: 600; color: var(--warn); font-size: 13px; text-transform: uppercase; letter-spacing: .06em; }
+.callout p { margin: 6px 0 10px; font-size: 14.5px; }
+.callout .related { align-items: center; font-size: 14px; color: var(--ink-2); }
+mark { background: var(--accent-soft); color: inherit; border-radius: 2px; }
+.empty, .loading { padding: 60px 0; text-align: center; color: var(--ink-3); }
+#sentinel { height: 1px; }
+
+/* Detail */
+dialog { border: 0; padding: 0; background: transparent; max-width: none; max-height: none; width: 100%; height: 100%; margin: 0; }
+dialog::backdrop { background: rgb(0 0 0 / .45); }
+.sheet { position: absolute; right: 0; top: 0; bottom: 0; width: min(760px, 100%); background: var(--bg); color: var(--ink); overflow-y: auto; border-left: 1px solid var(--line); animation: slide .18s ease-out; }
+@keyframes slide { from { transform: translateX(24px); opacity: 0; } }
+.sheet-head { position: sticky; top: 0; background: var(--bg); padding: 18px 20px 14px; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 52px 1fr auto; gap: 14px; align-items: center; z-index: 1; }
+.sheet-head .mono-tile { width: 52px; height: 52px; font-size: 22px; border-radius: 12px; }
+.sheet-head > div { min-width: 0; }
+.sheet-head h2 { margin: 0; font-size: 22px; line-height: 1.2; overflow-wrap: anywhere; }
+.sheet-head .sub { color: var(--ink-3); font-size: 13px; margin-top: 2px; }
+.close { background: var(--panel-2); border: 0; width: 34px; height: 34px; border-radius: 8px; cursor: pointer; font-size: 18px; color: var(--ink-2); }
+.sheet-body { padding: 18px 20px 40px; display: grid; gap: 22px; }
+.sheet-body > * { min-width: 0; }
+.sheet-body h4 { margin: 0 0 8px; font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); }
+.copyrow { display: flex; align-items: stretch; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); overflow: hidden; }
+.copyrow code { flex: 1; padding: 9px 12px; font-size: 13.5px; overflow-x: auto; white-space: nowrap; }
+.copyrow button { border: 0; border-left: 1px solid var(--line); background: var(--panel-2); padding: 0 14px; cursor: pointer; font-size: 13px; color: var(--ink-2); white-space: nowrap; }
+.copyrow button.done { color: var(--ok); }
+.stack { display: grid; gap: 8px; }
+.facts { display: grid; grid-template-columns: max-content 1fr; gap: 6px 18px; margin: 0; font-size: 14px; }
+.facts dt { color: var(--ink-3); }
+.facts dd { margin: 0; overflow-wrap: anywhere; min-width: 0; }
+.facts dd code { font-size: 13px; }
+.linkbtn { background: none; border: 0; padding: 0; color: var(--accent); cursor: pointer; text-decoration: underline; text-underline-offset: 2px; font: inherit; }
+.notes { margin: 0; padding-left: 18px; color: var(--ink-2); font-size: 14px; }
+.notes li { overflow-wrap: anywhere; }
+pre.code { margin: 0; background: var(--code-bg); color: var(--code-ink); padding: 14px 16px; border-radius: var(--radius); overflow-x: auto; font: 12.5px/1.6 var(--mono); tab-size: 4; }
+.code .c { color: var(--c-com); font-style: italic; } .code .s { color: var(--c-str); } .code .v { color: var(--c-var); } .code .k { color: var(--c-key); } .code .a { color: var(--c-assign); }
+.actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--panel); text-decoration: none; font-size: 14px; cursor: pointer; }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.related { display: flex; gap: 6px; flex-wrap: wrap; }
+.related button { font: 13px var(--mono); background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 3px 8px; cursor: pointer; color: var(--ink-2); }
+.related button:hover { border-color: var(--accent); color: var(--accent); }
+
+footer { text-align: center; padding: 3rem 2rem; color: var(--ink-2); font-size: .875rem; border-top: 1px solid var(--line); }
+
+@media (max-width: 760px) {
+  :root { --hdr: 57px; }
+  .wrap { padding: 0 16px; }
+  .site-header { padding: .75rem 16px; }
+  .logo { font-size: 1.15rem; }
+  .site-header nav { gap: 1rem; font-size: .9rem; }
+  .site-header nav .wide { display: none; }
+  .hero { padding: 1.25rem 16px 1rem; }
+  .hero h1 { font-size: 1.5rem; }
+  .layout { grid-template-columns: 1fr; gap: 12px; }
+  aside { display: none; background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px; }
+  aside.open { display: block; }
+  .filters-toggle { display: inline-block; }
+  .search { flex-wrap: wrap; }
+  .search-field { flex-basis: 100%; }
+  .search-field kbd { display: none; }
+  select, .filters-toggle { flex: 1; }
+  .grid { grid-template-columns: 1fr; }
+  .sheet-head { grid-template-columns: 44px 1fr auto; padding: 14px 16px; }
+  .sheet-head .mono-tile { width: 44px; height: 44px; }
+  .sheet-body { padding: 16px; }
+}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <a class="logo" href="https://installomator.org/"><img src="assets/installomator-logo.png" alt="Installomator Logo">Installomator</a>
+  <nav>
+    <a href="./" aria-current="page">Labels</a>
+    <a class="wide" href="https://github.com/Installomator/Installomator/wiki">Documentation</a>
+    <a class="wide" href="https://github.com/Installomator/Installomator/releases">Releases</a>
+    <a href="https://github.com/Installomator/Installomator">GitHub</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h1>Label Search</h1>
+  <p>Find Installomator Labels</p>
+  <div class="meta" id="meta">Loading…</div>
+</section>
+
+<div class="searchbar">
+  <div class="wrap">
+    <div class="search">
+      <label class="search-field">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="q" type="search" placeholder="Search apps, labels, team IDs, bundle IDs…" autocomplete="off" spellcheck="false" aria-label="Search labels">
+        <kbd>/</kbd>
+      </label>
+      <select id="sort" aria-label="Sort">
+        <option value="relevance">Best match</option>
+        <option value="name">Name A–Z</option>
+        <option value="updated">Recently updated</option>
+        <option value="added">Newest labels</option>
+      </select>
+      <button class="btn filters-toggle" id="filtersToggle" type="button">Filters</button>
+    </div>
+    <div class="hint">Try <code>zoom</code>, <code>team:UBF8T346G9</code>, <code>type:pkg</code>, <code>host:github.com</code> or <code>gh:microsoft</code></div>
+  </div>
+</div>
+
+<main class="wrap layout">
+  <aside id="facets"></aside>
+  <section>
+    <div class="resbar" id="resbar"></div>
+    <div class="grid" id="grid"><div class="loading">Fetching labels…</div></div>
+    <div id="sentinel"></div>
+  </section>
+</main>
+
+<footer id="footer">
+  Label data is parsed from <a href="https://github.com/Installomator/Installomator/tree/main/fragments">Installomator/fragments</a>. Found a problem with a label? <a href="https://github.com/Installomator/Installomator/issues">Open an issue</a>.
+</footer>
+
+<dialog id="detail" aria-label="Label details"></dialog>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
