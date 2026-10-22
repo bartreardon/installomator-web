@@ -43,7 +43,7 @@ jobs:
       - name: Assemble site
         run: |
           mkdir -p _site/data
-          cp index.html app.js parse.js _site/
+          cp -r index.html app.js parse.js assets _site/
           cp data/labels.json _site/data/
 
       - uses: actions/configure-pages@v5
